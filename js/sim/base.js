@@ -298,11 +298,11 @@ const CONFIG = Object.defineProperties(
         Paladin: {
             Attribute: 'Strength',
 
-            HealthMultiplier: 7,
+            HealthMultiplier: 6,
             WeaponMultiplier: 2,
-            DamageMultiplier: 0.72,
+            DamageMultiplier: 0.833,
 
-            MaximumDamageReduction: 55,
+            MaximumDamageReduction: 45,
             MaximumDamageReductionMultiplier: 1,
 
             SkipChance: 0,

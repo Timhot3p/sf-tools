@@ -86,6 +86,81 @@ const FLAGS = Object.defineProperties(
 const SKIP_TYPE_DEFAULT = 0;
 const SKIP_TYPE_CONTROL = 1;
 
+// Classes
+const WARRIOR = 1;
+const MAGE = 2;
+const SCOUT = 3;
+const ASSASSIN = 4;
+const BATTLEMAGE = 5;
+const BERSERKER = 6;
+const DEMONHUNTER = 7;
+const DRUID = 8;
+const BARD = 9;
+const NECROMANCER = 10;
+const PALADIN = 11;
+
+// Rune values
+const RUNE_FIRE_DAMAGE = 40;
+const RUNE_COLD_DAMAGE = 41;
+const RUNE_LIGHTNING_DAMAGE = 42;
+const RUNE_AUTO_DAMAGE = 999;
+
+// States
+const STATE_DEAD = 0;
+const STATE_ALIVE = 1;
+
+// Attack types
+const FIGHTER_STATE_NORMAL = 0;
+const FIGHTER_STATE_DRUID_HIDDEN = 10;
+const FIGHTER_STATE_DRUID_RAGE = 11;
+const FIGHTER_STATE_PALADIN_DEFENSIVE = 20;
+const FIGHTER_STATE_PALADIN_OFFENSIVE = 21;
+const FIGHTER_STATE_BERSERKER_RAGE = 30;
+
+const ATTACK_TYPE_NORMAL = 0;
+const ATTACK_TYPE_CRITICAL = 1;
+const ATTACK_TYPE_CATAPULT = 2;
+const ATTACK_TYPE_FIREBALL = 10;
+const ATTACK_TYPE_MINION_SUMMON = 11;
+const ATTACK_TYPE_MINION = 12;
+const ATTACK_TYPE_SWOOP = 13;
+const ATTACK_TYPE_REVIVE = 14;
+const ATTACK_TYPE_MINION_CRITICAL = 15;
+const ATTACK_TYPE_SWOOP_CRITICAL = 16;
+const ATTACK_TYPE_NORMAL_SECONDARY = 100;
+const ATTACK_TYPE_CRITICAL_SECONDARY = 101;
+
+const ATTACK_TYPES_SECONDARY = [
+    ATTACK_TYPE_NORMAL_SECONDARY,
+    ATTACK_TYPE_CRITICAL_SECONDARY
+]
+
+const ATTACK_TYPES_CRITICAL = [
+    ATTACK_TYPE_CRITICAL,
+    ATTACK_TYPE_SWOOP_CRITICAL,
+    ATTACK_TYPE_CRITICAL_SECONDARY,
+    ATTACK_TYPE_MINION_CRITICAL
+]
+
+const ATTACK_TYPES_SPECIAL = [
+    ATTACK_TYPE_MINION_SUMMON,
+    ATTACK_TYPE_REVIVE
+]
+
+const ATTACK_TYPES_MINION = [
+    ATTACK_TYPE_MINION,
+    ATTACK_TYPE_MINION_CRITICAL
+]
+
+const DEFENSE_TYPE_NONE = 0;
+const DEFENSE_TYPE_BLOCK = 3;
+const DEFENSE_TYPE_EVADE = 4;
+const DEFENSE_TYPE_MAGIC = 5;
+const DEFENSE_TYPE_BLOCK_HEAL = 6;
+
+const EFFECT_TYPE_SONG = 1;
+const EFFECT_TYPE_MINION = 2;
+
 // Configuration
 const CONFIG = Object.defineProperties(
     {
@@ -106,6 +181,7 @@ const CONFIG = Object.defineProperties(
             SkipChance: 0.25,
             SkipLimit: 999,
             SkipType: SKIP_TYPE_DEFAULT,
+            SkipVariant: DEFENSE_TYPE_BLOCK,
 
             UseBlockChance: true
         },
@@ -124,7 +200,8 @@ const CONFIG = Object.defineProperties(
 
             SkipChance: 0,
             SkipLimit: 999,
-            SkipType: SKIP_TYPE_DEFAULT
+            SkipType: SKIP_TYPE_DEFAULT,
+            SkipVariant: DEFENSE_TYPE_NONE
         },
         Scout: {
             Attribute: 'Dexterity',
@@ -137,7 +214,8 @@ const CONFIG = Object.defineProperties(
 
             SkipChance: 0.50,
             SkipLimit: 999,
-            SkipType: SKIP_TYPE_DEFAULT
+            SkipType: SKIP_TYPE_DEFAULT,
+            SkipVariant: DEFENSE_TYPE_EVADE
         },
         Assassin: {
             Attribute: 'Dexterity',
@@ -150,7 +228,8 @@ const CONFIG = Object.defineProperties(
 
             SkipChance: 0.50,
             SkipLimit: 999,
-            SkipType: SKIP_TYPE_DEFAULT
+            SkipType: SKIP_TYPE_DEFAULT,
+            SkipVariant: DEFENSE_TYPE_EVADE
         },
         Battlemage: {
             Attribute: 'Strength',
@@ -163,7 +242,8 @@ const CONFIG = Object.defineProperties(
 
             SkipChance: 0,
             SkipLimit: 999,
-            SkipType: SKIP_TYPE_DEFAULT
+            SkipType: SKIP_TYPE_DEFAULT,
+            SkipVariant: DEFENSE_TYPE_NONE
         },
         Berserker: {
             Attribute: 'Strength',
@@ -176,7 +256,8 @@ const CONFIG = Object.defineProperties(
 
             SkipChance: 0.5,
             SkipLimit: 14,
-            SkipType: SKIP_TYPE_CONTROL
+            SkipType: SKIP_TYPE_CONTROL,
+            SkipVariant: DEFENSE_TYPE_NONE
         },
         DemonHunter: {
             Attribute: 'Dexterity',
@@ -190,6 +271,7 @@ const CONFIG = Object.defineProperties(
             SkipChance: 0,
             SkipLimit: 999,
             SkipType: SKIP_TYPE_DEFAULT,
+            SkipVariant: DEFENSE_TYPE_NONE,
 
             ReviveChance: 0.44,
             ReviveChanceDecay: 0.11,
@@ -213,6 +295,7 @@ const CONFIG = Object.defineProperties(
             SkipChance: 0.35,
             SkipLimit: 999,
             SkipType: SKIP_TYPE_DEFAULT,
+            SkipVariant: DEFENSE_TYPE_EVADE,
 
             DemonHunterDamageMultiplier: 1.15,
             MageDamageMultiplier: 4 / 3,
@@ -242,6 +325,7 @@ const CONFIG = Object.defineProperties(
             SkipChance: 0,
             SkipLimit: 999,
             SkipType: SKIP_TYPE_DEFAULT,
+            SkipVariant: DEFENSE_TYPE_NONE,
 
             EffectRounds: 4,
             EffectBaseDuration: [1, 1, 2],
@@ -260,6 +344,7 @@ const CONFIG = Object.defineProperties(
             SkipChance: 0,
             SkipLimit: 999,
             SkipType: SKIP_TYPE_DEFAULT,
+            SkipVariant: DEFENSE_TYPE_NONE,
 
             DemonHunterDamageBonus: 0.1,
 
@@ -308,6 +393,7 @@ const CONFIG = Object.defineProperties(
             SkipChance: 0,
             SkipLimit: 999,
             SkipType: SKIP_TYPE_DEFAULT,
+            SkipVariant: DEFENSE_TYPE_BLOCK_HEAL,
 
             AssassinDamageMultiplier: 1,
             DruidDamageMultiplier: 1,
@@ -410,80 +496,6 @@ function clamp (value, min, max) {
 function getRuneValue (item, rune) {
     return item.AttributeTypes[2] == rune ? item.Attributes[2] : 0;
 }
-
-// Classes
-const WARRIOR = 1;
-const MAGE = 2;
-const SCOUT = 3;
-const ASSASSIN = 4;
-const BATTLEMAGE = 5;
-const BERSERKER = 6;
-const DEMONHUNTER = 7;
-const DRUID = 8;
-const BARD = 9;
-const NECROMANCER = 10;
-const PALADIN = 11;
-
-// Rune values
-const RUNE_FIRE_DAMAGE = 40;
-const RUNE_COLD_DAMAGE = 41;
-const RUNE_LIGHTNING_DAMAGE = 42;
-const RUNE_AUTO_DAMAGE = 999;
-
-// States
-const STATE_DEAD = 0;
-const STATE_ALIVE = 1;
-
-// Attack types
-const FIGHTER_STATE_NORMAL = 0;
-const FIGHTER_STATE_DRUID_HIDDEN = 10;
-const FIGHTER_STATE_DRUID_RAGE = 11;
-const FIGHTER_STATE_PALADIN_DEFENSIVE = 20;
-const FIGHTER_STATE_PALADIN_OFFENSIVE = 21;
-const FIGHTER_STATE_BERSERKER_RAGE = 30;
-
-const ATTACK_TYPE_NORMAL = 0;
-const ATTACK_TYPE_CRITICAL = 1;
-const ATTACK_TYPE_CATAPULT = 2;
-const ATTACK_TYPE_FIREBALL = 10;
-const ATTACK_TYPE_MINION_SUMMON = 11;
-const ATTACK_TYPE_MINION = 12;
-const ATTACK_TYPE_SWOOP = 13;
-const ATTACK_TYPE_REVIVE = 14;
-const ATTACK_TYPE_MINION_CRITICAL = 15;
-const ATTACK_TYPE_SWOOP_CRITICAL = 16;
-const ATTACK_TYPE_NORMAL_SECONDARY = 100;
-const ATTACK_TYPE_CRITICAL_SECONDARY = 101;
-
-const ATTACK_TYPES_SECONDARY = [
-    ATTACK_TYPE_NORMAL_SECONDARY,
-    ATTACK_TYPE_CRITICAL_SECONDARY
-]
-
-const ATTACK_TYPES_CRITICAL = [
-    ATTACK_TYPE_CRITICAL,
-    ATTACK_TYPE_SWOOP_CRITICAL,
-    ATTACK_TYPE_CRITICAL_SECONDARY,
-    ATTACK_TYPE_MINION_CRITICAL
-]
-
-const ATTACK_TYPES_SPECIAL = [
-    ATTACK_TYPE_MINION_SUMMON,
-    ATTACK_TYPE_REVIVE
-]
-
-const ATTACK_TYPES_MINION = [
-    ATTACK_TYPE_MINION,
-    ATTACK_TYPE_MINION_CRITICAL
-]
-
-const DEFENSE_TYPE_NONE = 0;
-const DEFENSE_TYPE_BLOCK = 3;
-const DEFENSE_TYPE_EVADE = 4;
-const DEFENSE_TYPE_MAGIC = 5;
-
-const EFFECT_TYPE_SONG = 1;
-const EFFECT_TYPE_MINION = 2;
 
 // Modifiers
 const SNACKS = {
@@ -863,7 +875,7 @@ class SimulatorModel {
                 // Make sure 0 is logged as damage if attack is skipped
                 skipped ? 0 : damage,
                 critical ? attackTypeCritical : attackType,
-                skipped ? (target.Player.Class === WARRIOR? DEFENSE_TYPE_BLOCK : DEFENSE_TYPE_EVADE) : DEFENSE_TYPE_NONE
+                skipped ? target.Config.SkipVariant : DEFENSE_TYPE_NONE
             )
         }
 

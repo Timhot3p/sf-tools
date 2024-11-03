@@ -331,7 +331,7 @@ const CONFIG = Object.defineProperties(
                     DamageBonus: -0.265,
                     DamageReductionBonus: 11.25,
                     MaximumDamageReductionBonus: 0,
-                    SkipChance: 0,
+                    SkipChance: 50,
                     CriticalBonus: 0,
                     CriticalChance: 0.5,
                     CriticalChanceBonus: 0,
@@ -809,8 +809,13 @@ class SimulatorModel {
     }
 
     // Triggers after player receives damage (blocked or evaded damage appears as 0)
-    onDamageTaken (instance, source, damage) {
-        return (this.Health -= damage) > 0 ? STATE_ALIVE : STATE_DEAD;
+    applyDamage (instance, source, damage, skipped) {
+        if (!skipped) {
+            // Apply damage if attack was not skipped
+            this.Health -= damage;
+        }
+
+        return this.Health > 0 ? STATE_ALIVE : STATE_DEAD
     }
 
     // Returns type of current state of player, only for logging
@@ -834,18 +839,18 @@ class SimulatorModel {
 
     // Attack
     attack (instance, damage, target, skipped, critical, attackType, attackTypeCritical) {
-        if (skipped) {
-            damage = 0;
+        // Apply critical multiplier to damage
+        if (critical) {
+            damage *= this.State.CriticalMultiplier;
+        }
 
+        // Apply received damage multiplier to damage
+        damage = Math.trunc(damage * target.State.ReceivedDamageMultiplier);
+
+        if (skipped) {
             // Advance skip count
             target.SkipCount++;
         } else {
-            if (critical) {
-                damage *= this.State.CriticalMultiplier;
-            }
-
-            damage = Math.trunc(damage * target.State.ReceivedDamageMultiplier);
-
             // Reset skip count
             target.SkipCount = 0;
         }
@@ -854,13 +859,14 @@ class SimulatorModel {
             FIGHT_LOG.logRound(
                 this,
                 target,
-                damage,
+                // Make sure 0 is logged as damage if attack is skipped
+                skipped ? 0 : damage,
                 critical ? attackTypeCritical : attackType,
                 skipped ? (target.Player.Class === WARRIOR? DEFENSE_TYPE_BLOCK : DEFENSE_TYPE_EVADE) : DEFENSE_TYPE_NONE
             )
         }
 
-        return target.onDamageTaken(instance, this, damage) != STATE_DEAD;
+        return target.applyDamage(instance, this, damage, skipped) != STATE_DEAD;
     }
 
     // Returns extra damage multiplier, default is 1 for no extra damage
@@ -1016,7 +1022,7 @@ class BattlemageModel extends SimulatorModel {
         if (damage === 0) {
             // Do nothing
         } else {
-            target.onDamageTaken(instance, this, damage);
+            target.applyDamage(instance, this, damage, false);
         }
     }
 }
@@ -1052,8 +1058,8 @@ class DemonHunterModel extends SimulatorModel {
         this.DeathTriggers = 0;
     }
 
-    onDamageTaken (instance, source, damage) {
-        let state = super.onDamageTaken(instance, source, damage);
+    applyDamage (instance, source, damage, skipped) {
+        let state = super.applyDamage(instance, source, damage, skipped);
 
         if (state == STATE_DEAD) {
             const reviveChance = this.Config.ReviveChance - this.Config.ReviveChanceDecay * this.DeathTriggers;
@@ -1159,12 +1165,12 @@ class DruidModel extends SimulatorModel {
         }
     }
 
-    onDamageTaken (instance, source, damage) {
-        if (damage == 0 && !this.specialState()) {
+    applyDamage (instance, source, damage, skipped) {
+        if (skipped && !this.specialState()) {
             this.RequestState = true;
         }
 
-        return super.onDamageTaken(instance, source, damage);
+        return super.applyDamage(instance, source, damage, skipped);
     }
 }
 

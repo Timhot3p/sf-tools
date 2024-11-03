@@ -335,7 +335,8 @@ const CONFIG = Object.defineProperties(
                     CriticalBonus: 0,
                     CriticalChance: 0.5,
                     CriticalChanceBonus: 0,
-                    StanceChangeChance: 0.5
+                    StanceChangeChance: 0.5,
+                    HealMultiplier: 0.5
                 },
                 {
                     Name: 'OFFENSIVE',
@@ -1337,7 +1338,7 @@ class PaladinModel extends SimulatorModel {
 
     applyDamage (instance, source, damage, skipped) {
         if (skipped && this.StanceIndex === 1) {
-            this.Health = Math.min(this.Health + Math.max(0, damage) / 2, this.TotalHealth)
+            this.Health = Math.min(this.Health + Math.max(0, damage) * this.Config.Stances[1].HealMultiplier, this.TotalHealth)
         }
 
         return super.applyDamage(instance, source, damage, skipped)

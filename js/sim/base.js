@@ -1327,9 +1327,9 @@ class PaladinModel extends SimulatorModel {
 
     getCurrentStateForLog () {
         if (this.StanceIndex === 1) {
-            return FIGHTER_STATE_PALADIN_OFFENSIVE
-        } else if (this.StanceIndex === 2) {
             return FIGHTER_STATE_PALADIN_DEFENSIVE
+        } else if (this.StanceIndex === 2) {
+            return FIGHTER_STATE_PALADIN_OFFENSIVE
         } else {
             return FIGHTER_STATE_NORMAL
         }

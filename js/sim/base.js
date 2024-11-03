@@ -1334,6 +1334,14 @@ class PaladinModel extends SimulatorModel {
 
         super.control(instance, target);
     }
+
+    applyDamage (instance, source, damage, skipped) {
+        if (skipped && this.StanceIndex === 1) {
+            this.Health = Math.min(this.Health + Math.max(0, damage) / 2, this.TotalHealth)
+        }
+
+        return super.applyDamage(instance, source, damage, skipped)
+    }
 }
 
 class NecromancerModel extends SimulatorModel {

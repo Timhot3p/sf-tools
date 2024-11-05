@@ -422,13 +422,13 @@ const CONFIG = Object.defineProperties(
                     CriticalChance: 0.5,
                     CriticalChanceBonus: 0,
                     StanceChangeChance: 0.5,
-                    HealMultiplier: 0.5
+                    HealMultiplier: 0.3
                 },
                 {
                     Name: 'OFFENSIVE',
-                    DamageBonus: 0.459,
+                    DamageBonus: 0.42,
                     DamageReductionBonus: 0,
-                    MaximumDamageReductionBonus: -15,
+                    MaximumDamageReductionBonus: -25,
                     SkipChance: 0,
                     CriticalBonus: 0,
                     CriticalChance: 0.5,

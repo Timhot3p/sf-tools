@@ -1054,10 +1054,6 @@ class BerserkerModel extends SimulatorModel {
 }
 
 class DemonHunterModel extends SimulatorModel {
-    constructor (i, p) {
-        super(i, p);
-    }
-
     resetInternalState () {
         super.resetInternalState();
 

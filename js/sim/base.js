@@ -1247,7 +1247,7 @@ class BardModel extends SimulatorModel {
         if (this.specialState()) {
             return [{
                 type: EFFECT_TYPE_SONG,
-                duration: this.EffectReset - this.EffectCounter + 1,
+                duration: this.EffectReset - this.EffectCounter,
                 tier: this.EffectLevel
             }]
         } else {

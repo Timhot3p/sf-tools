@@ -1244,7 +1244,7 @@ class BardModel extends SimulatorModel {
     }
 
     getCurrentEffectsForLog () {
-        if (this.EffectLevel) {
+        if (this.specialState()) {
             return [{
                 type: EFFECT_TYPE_SONG,
                 duration: this.EffectReset - this.EffectCounter + 1,

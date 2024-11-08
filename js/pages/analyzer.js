@@ -1242,13 +1242,13 @@ Site.ready({ name: 'analyzer', requires: ['translations_monsters'] }, function (
             if (round.attackerEffects.length > 0 && round.attacker.Class === BARD) {
                 const effect = round.attackerEffects[0]
 
-                round.attackerSpecialDisplay = { type: 'bard_song', level: effect.tier, notes: effect.duration + 1 }
+                round.attackerSpecialDisplay = { type: 'bard_song', level: effect.tier, notes: effect.duration }
             }
 
             if (round.targetEffects.length > 0 && round.target.Class === BARD) {
                 const effect = round.targetEffects[0]
 
-                round.targetSpecialDisplay = { type: 'bard_song', level: effect.tier, notes: effect.duration + 1 }
+                round.targetSpecialDisplay = { type: 'bard_song', level: effect.tier, notes: effect.duration }
             }
 
             // Skip if missed or special

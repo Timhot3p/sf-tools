@@ -1233,6 +1233,7 @@ class BardModel extends SimulatorModel {
                 CriticalMultiplier: this.Data.CriticalMultiplier,
                 CriticalChance: this.Data.CriticalChance,
                 ReceivedDamageMultiplier: 1,
+                SkipVariant: this.Config.SkipVariant,
                 Weapon1: {
                     Base: multiplier * this.Data.Weapon1.Base,
                     Max: multiplier * this.Data.Weapon1.Max,

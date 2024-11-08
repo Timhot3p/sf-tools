@@ -376,7 +376,8 @@ const CONFIG = Object.defineProperties(
                     SkipChance: 0.25,
                     CriticalBonus: 0,
                     CriticalChance: 0.5,
-                    CriticalChanceBonus: 0
+                    CriticalChanceBonus: 0,
+                    SkipVariant: DEFENSE_TYPE_BLOCK
                 }
             ]
         },
@@ -393,7 +394,7 @@ const CONFIG = Object.defineProperties(
             SkipChance: 0,
             SkipLimit: 999,
             SkipType: SKIP_TYPE_DEFAULT,
-            SkipVariant: DEFENSE_TYPE_BLOCK_HEAL,
+            SkipVariant: DEFENSE_TYPE_NONE,
 
             AssassinDamageMultiplier: 1,
             DruidDamageMultiplier: 1,
@@ -422,7 +423,8 @@ const CONFIG = Object.defineProperties(
                     CriticalChance: 0.5,
                     CriticalChanceBonus: 0,
                     StanceChangeChance: 0.5,
-                    HealMultiplier: 0.3
+                    HealMultiplier: 0.3,
+                    SkipVariant: DEFENSE_TYPE_BLOCK_HEAL
                 },
                 {
                     Name: 'OFFENSIVE',
@@ -810,6 +812,9 @@ class SimulatorModel {
 
         // Default multiplier for all incoming damage
         this.Data.ReceivedDamageMultiplier = 1;
+
+        // Skip variant
+        this.Data.SkipVariant = this.Config.SkipVariant
     }
 
     resetHealth () {
@@ -865,7 +870,7 @@ class SimulatorModel {
             skipped,
             critical,
             critical ? attackTypeCritical : attackType,
-            skipped ? target.Config.SkipVariant : DEFENSE_TYPE_NONE
+            skipped ? target.State.SkipVariant : DEFENSE_TYPE_NONE
         ) != STATE_DEAD;
     }
 
@@ -938,6 +943,7 @@ class SimulatorModel {
         const state = {
             Config: config,
             SkipChance: target.Config.BypassSkipChance ? 0 : config.SkipChance,
+            SkipVariant: target.Config.SkipVariant,
             CriticalMultiplier: (this.Config.CritBase + config.CriticalBonus) * this.Data.CriticalMultiplier / this.Config.CritBase,
             CriticalChance: this.getCriticalChance(target, config.CriticalChance, config.CriticalChanceBonus),
             ReceivedDamageMultiplier: 1,
@@ -953,6 +959,10 @@ class SimulatorModel {
                 Max: multiplier * this.Data.Weapon1.Max,
                 Min: multiplier * this.Data.Weapon1.Min
             }
+        }
+
+        if (typeof config.SkipVariant !== 'undefined') {
+            state.SkipVariant = config.SkipVariant
         }
 
         if (typeof config.DamageReductionBonus !== 'undefined' || typeof config.MaximumDamageReductionBonus !== 'undefined') {

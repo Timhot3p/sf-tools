@@ -1089,7 +1089,7 @@ class DemonHunterModel extends SimulatorModel {
         return state;
     }
 
-    attack (instance, damage, target, skipped, critical, type) {
+    attack (instance, damage, target, skipped, critical, attackType, attackTypeCritical) {
         const multiplier = Math.max(this.Config.ReviveDamageMin, this.Config.ReviveDamage - this.DeathTriggers * this.Config.ReviveDamageDecay);
 
         return super.attack(
@@ -1098,7 +1098,8 @@ class DemonHunterModel extends SimulatorModel {
             target,
             skipped,
             critical,
-            type
+            attackType,
+            attackTypeCritical
         )
     }
 }
@@ -1275,14 +1276,15 @@ class BardModel extends SimulatorModel {
         return super.control(instance, target);
     }
 
-    attack (instance, damage, target, skipped, critical, type) {
+    attack (instance, damage, target, skipped, critical, attackType, attackTypeCritical) {
         const state = super.attack(
             instance,
             damage,
             target,
             skipped,
             critical,
-            type
+            attackType,
+            attackTypeCritical
         )
 
         if (this.specialState()) {

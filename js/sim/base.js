@@ -821,16 +821,6 @@ class SimulatorModel {
         this.SkipCount = 0;
     }
 
-    // Triggers after player receives damage (blocked or evaded damage appears as 0)
-    applyDamage (instance, source, damage, skipped) {
-        if (!skipped) {
-            // Apply damage if attack was not skipped
-            this.Health -= damage;
-        }
-
-        return this.Health > 0 ? STATE_ALIVE : STATE_DEAD
-    }
-
     // Returns type of current state of player, only for logging
     getCurrentStateForLog () {
         return FIGHTER_STATE_NORMAL;
@@ -868,18 +858,35 @@ class SimulatorModel {
             target.SkipCount = 0;
         }
 
+        return target.applyAttack(
+            instance,
+            this,
+            damage,
+            skipped,
+            critical,
+            critical ? attackTypeCritical : attackType,
+            skipped ? target.Config.SkipVariant : DEFENSE_TYPE_NONE
+        ) != STATE_DEAD;
+    }
+
+    // Triggers after player receives damage (blocked or evaded damage appears as 0)
+    applyAttack (instance, source, damage, skipped, critical, attackType, defenseType) {
+        if (!skipped) {
+            // Apply damage if attack was not skipped
+            this.Health -= damage;
+        }
+
         if (FIGHT_LOG_ENABLED) {
             FIGHT_LOG.logRound(
+                source,
                 this,
-                target,
-                // Make sure 0 is logged as damage if attack is skipped
                 skipped ? 0 : damage,
-                critical ? attackTypeCritical : attackType,
-                skipped ? target.Config.SkipVariant : DEFENSE_TYPE_NONE
+                attackType,
+                defenseType
             )
         }
 
-        return target.applyDamage(instance, this, damage, skipped) != STATE_DEAD;
+        return this.Health > 0 ? STATE_ALIVE : STATE_DEAD
     }
 
     // Returns extra damage multiplier, default is 1 for no extra damage
@@ -1019,24 +1026,10 @@ class BattlemageModel extends SimulatorModel {
 
     before (instance, target) {
         instance.getRage();
-        
+
         const damage = this.getFireballDamage(target);
 
-        if (FIGHT_LOG_ENABLED) {
-            FIGHT_LOG.logRound(
-                this,
-                target,
-                damage,
-                ATTACK_TYPE_FIREBALL,
-                damage === 0 ? DEFENSE_TYPE_MAGIC : DEFENSE_TYPE_NONE
-            )
-        }
-
-        if (damage === 0) {
-            // Do nothing
-        } else {
-            target.applyDamage(instance, this, damage, false);
-        }
+        target.applyAttack(instance, this, damage, false, false, ATTACK_TYPE_FIREBALL, damage === 0 ? DEFENSE_TYPE_MAGIC : DEFENSE_TYPE_NONE);
     }
 }
 
@@ -1071,8 +1064,8 @@ class DemonHunterModel extends SimulatorModel {
         this.DeathTriggers = 0;
     }
 
-    applyDamage (instance, source, damage, skipped) {
-        let state = super.applyDamage(instance, source, damage, skipped);
+    applyAttack (instance, source, damage, skipped, critical, attackType, defenseType) {
+        const state = super.applyAttack(instance, source, damage, skipped, critical, attackType, defenseType);
 
         if (state == STATE_DEAD) {
             const reviveChance = this.Config.ReviveChance - this.Config.ReviveChanceDecay * this.DeathTriggers;
@@ -1178,12 +1171,12 @@ class DruidModel extends SimulatorModel {
         }
     }
 
-    applyDamage (instance, source, damage, skipped) {
+    applyAttack (instance, source, damage, skipped, critical, attackType, defenseType) {
         if (skipped && !this.specialState()) {
             this.RequestState = true;
         }
 
-        return super.applyDamage(instance, source, damage, skipped);
+        return super.applyAttack(instance, source, damage, skipped, critical, attackType, defenseType);
     }
 }
 
@@ -1348,12 +1341,12 @@ class PaladinModel extends SimulatorModel {
         super.control(instance, target);
     }
 
-    applyDamage (instance, source, damage, skipped) {
+    applyAttack (instance, source, damage, skipped, critical, attackType, defenseType) {
         if (skipped && this.StanceIndex === 1) {
             this.Health = Math.min(this.Health + Math.max(0, damage) * this.Config.Stances[1].HealMultiplier, this.TotalHealth)
         }
 
-        return super.applyDamage(instance, source, damage, skipped)
+        return super.applyAttack(instance, source, damage, skipped, critical, attackType, defenseType)
     }
 }
 

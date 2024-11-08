@@ -1005,7 +1005,7 @@ Site.ready({ name: 'analyzer', requires: ['translations_monsters'] }, function (
             const {
                 attacker, target, attackType, attackRage, attackDamage, attackBase, attackTypeCritical,
                 targetHealth, attackerSpecialDisplay, targetSpecialDisplay, attackerHealth,
-                hasDamage, hasBase, hasError, hasIgnore, defenseType
+                hasDamage, hasBase, hasError, defenseType
             } = fight.rounds[i];
 
             const nameStyle = ' style="text-overflow: ellipsis; white-space: nowrap;"';
@@ -1013,10 +1013,7 @@ Site.ready({ name: 'analyzer', requires: ['translations_monsters'] }, function (
             const attackerState = renderState(attackerSpecialDisplay, copyMode);
             const targetState = renderState(targetSpecialDisplay, copyMode);
 
-            if (hasIgnore) {
-                // Do nothing if attack is ignored in display
-                continue;
-            } else if (attackType === ATTACK_TYPE_REVIVE) {
+            if (attackType === ATTACK_TYPE_REVIVE) {
                 content += `
                     <tr${attacker.ID == group.fighterA.ID ? ' style="background-color: #202020; color: darkgray;"' : ''}>
                         <td class="!text-center">${i + 1}</th>
@@ -1032,9 +1029,9 @@ Site.ready({ name: 'analyzer', requires: ['translations_monsters'] }, function (
                     </tr>
                 `;
             } else {
-                const attackClass = attackTypeCritical ? ' text-orangered font-bold' : (attackType === ATTACK_TYPE_FIREBALL ? ' text-violet' : '');
+                const attackClass = defenseType === DEFENSE_TYPE_BLOCK_HEAL ? ' text-green' : (attackTypeCritical ? ' text-orangered font-bold' : (attackType === ATTACK_TYPE_FIREBALL ? ' text-violet' : ''));
 
-                const displayDamage = hasDamage ? formatAsSpacedNumber(attackDamage) : '';
+                const displayDamage = hasDamage ? formatAsSpacedNumber(Math.abs(attackDamage)) : '';
                 const displayBase = hasBase ? formatAsSpacedNumber(attackBase) : '';
 
                 content += `
@@ -1255,7 +1252,7 @@ Site.ready({ name: 'analyzer', requires: ['translations_monsters'] }, function (
             }
 
             // Skip if missed or special
-            if (round.attackTypeSpecial || round.defenseType) {
+            if (round.attackTypeSpecial || (round.defenseType && round.defenseType !== DEFENSE_TYPE_BLOCK_HEAL)) {
                 continue;
             }
 
@@ -1266,9 +1263,7 @@ Site.ready({ name: 'analyzer', requires: ['translations_monsters'] }, function (
         // Calculate base damage of each round
         for (const round of flatRounds) {
             // We are assuming that lute round always follows after bard attack
-            if (round.hasIgnore) {
-                continue;
-            } else if (round.hasBase) {
+            if (round.hasBase) {
                 const attackerModel = round.attacker.ID === currentGroup.fighterA.ID ? model1 : model2;
                 const attackerState = findAttackerState(round, attackerModel);
 
@@ -1291,6 +1286,11 @@ Site.ready({ name: 'analyzer', requires: ['translations_monsters'] }, function (
                     damage /= Math.max(attackerModel.Config.ReviveDamageMin, attackerModel.Config.ReviveDamage - round.attackerDeaths * attackerModel.Config.ReviveDamageDecay);
                 }
 
+                if (round.defenseType && round.defenseType === DEFENSE_TYPE_BLOCK_HEAL) {
+                    damage *= -1
+                    damage /= targetModel.Config.Stances[1].HealMultiplier
+                }
+
                 // Apply back reduced damage
                 damage /= targetState.ReceivedDamageMultiplier;
 
@@ -1300,7 +1300,7 @@ Site.ready({ name: 'analyzer', requires: ['translations_monsters'] }, function (
 
         // Verify whether damage is in range
         for (const round of flatRounds) {
-            if (round.hasBase) {
+            if (round.hasBase && !round.defenseType) {
                 const model = round.attacker.ID === currentGroup.fighterA.ID ? model1 : model2;
                 const weapon = model.Player.Items[round.attackTypeSecondary ? 'Wpn2' : 'Wpn1'];
 
@@ -1343,11 +1343,11 @@ Site.ready({ name: 'analyzer', requires: ['translations_monsters'] }, function (
 
         // Calculate summary
         for (const fight of group.fights) {
-            for (const { attacker, attackType, attackTypeSecondary, hasError, attackBase, hasBase, attackTypeCritical } of fight.rounds) {
+            for (const { attacker, attackType, attackTypeSecondary, defenseType, hasError, attackBase, hasBase, attackTypeCritical } of fight.rounds) {
                 const container = group[group.fighterA.ID === attacker.ID ? 'fighterA' : 'fighterB'];
 
                 // Calculate damage range
-                if (hasBase) {
+                if (hasBase && !defenseType) {
                     const key = `${attackTypeSecondary ? 'weapon2' : 'weapon1'}_range${attackType === ATTACK_TYPE_SWOOP || attackType === ATTACK_TYPE_SWOOP_CRITICAL ? '_swoop' : ''}${attackTypeCritical ? '_critical' : ''}`;
 
                     if (typeof container.damages[key] === 'undefined') {

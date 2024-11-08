@@ -1343,7 +1343,12 @@ class PaladinModel extends SimulatorModel {
 
     applyAttack (instance, source, damage, skipped, critical, attackType, defenseType) {
         if (skipped && this.StanceIndex === 1) {
-            this.Health = Math.min(this.Health + Math.max(0, damage) * this.Config.Stances[1].HealMultiplier, this.TotalHealth)
+            const maximumHeal = Math.max(0, this.TotalHealth - this.Health)
+
+            // Set damage to negative
+            damage = -Math.min(maximumHeal, Math.max(0, damage) * this.Config.Stances[1].HealMultiplier)
+            // 'Unskip' damage
+            skipped = false
         }
 
         return super.applyAttack(instance, source, damage, skipped, critical, attackType, defenseType)

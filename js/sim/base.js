@@ -782,8 +782,8 @@ class SimulatorModel {
 
         return {
             Base: dm,
-            Max: dm * Math.max(weapon.DamageMax, bd.Max),
-            Min: dm * Math.max(weapon.DamageMin, bd.Min)
+            Max: dm * Math.max(weapon.DamageMax, bd.DamageMax),
+            Min: dm * Math.max(weapon.DamageMin, bd.DamageMin)
         };
     }
 

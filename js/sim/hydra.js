@@ -3,8 +3,8 @@ SimulatorModel.prototype.getBaseDamage = function () {
     const damage = Math.trunc((this.Player.Level + 1) * this.getWeaponMultiplier());
 
     return {
-        Min: damage,
-        Max: damage
+        DamageMin: damage,
+        DamageMax: damage
     }
 }
 

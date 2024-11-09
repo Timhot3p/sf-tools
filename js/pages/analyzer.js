@@ -524,9 +524,9 @@ Site.ready({ name: 'analyzer', requires: ['translations_monsters'] }, function (
                 // Fix weapon damage (is not clamped by fist damage only if min is below min)
                 const baseDamage = player.model.getBaseDamage(secondary);
 
-                if (json[0] < baseDamage.Min) {
-                    json[0] = Math.max(baseDamage.Min, json[0]);
-                    json[1] = Math.max(baseDamage.Max, json[1]);
+                if (json[0] < baseDamage.DamageMin) {
+                    json[0] = Math.max(baseDamage.DamageMin, json[0]);
+                    json[1] = Math.max(baseDamage.DamageMax, json[1]);
                 }
             }
 
@@ -1327,8 +1327,8 @@ Site.ready({ name: 'analyzer', requires: ['translations_monsters'] }, function (
 
             const fist1 = (fighter.ID === currentGroup.fighterA.ID ? model1 : model2).getBaseDamage(false);
             fighter.damages.weapon1_fist_damage = {
-                min: fist1.Min,
-                max: fist1.Max
+                min: fist1.DamageMin,
+                max: fist1.DamageMax
             }
 
             if (fighter.Class === ASSASSIN) {
@@ -1339,8 +1339,8 @@ Site.ready({ name: 'analyzer', requires: ['translations_monsters'] }, function (
 
                 const fist2 = (fighter.ID === currentGroup.fighterA.ID ? model1 : model2).getBaseDamage(true);
                 fighter.damages.weapon2_fist_damage = {
-                    min: fist2.Min,
-                    max: fist2.Max
+                    min: fist2.DamageMin,
+                    max: fist2.DamageMax
                 }
             }
         }

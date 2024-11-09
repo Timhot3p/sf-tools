@@ -1029,7 +1029,11 @@ Site.ready({ name: 'analyzer', requires: ['translations_monsters'] }, function (
                     </tr>
                 `;
             } else {
-                const attackClass = defenseType === DEFENSE_TYPE_BLOCK_HEAL ? ' text-green' : (attackTypeCritical ? ' text-orangered font-bold' : (attackType === ATTACK_TYPE_FIREBALL ? ' text-violet' : ''));
+                const attackClass = defenseType === DEFENSE_TYPE_BLOCK_HEAL ? (
+                    attackTypeCritical ? ' text-green font-bold' : ' text-greenyellow'
+                ) : (
+                    attackTypeCritical ? ' text-orangered font-bold' : (attackType === ATTACK_TYPE_FIREBALL ? ' text-violet' : '')
+                )
 
                 const displayDamage = hasDamage ? formatAsSpacedNumber(Math.abs(attackDamage)) : '';
                 const displayBase = hasBase ? formatAsSpacedNumber(attackBase) : '';

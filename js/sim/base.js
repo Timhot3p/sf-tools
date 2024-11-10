@@ -780,7 +780,7 @@ class SimulatorModel {
         let base = this.getDamageBase(weapon, target);
         let baseDamage = this.getBaseDamage(secondary);
 
-        const range = weapon.DamageMin > baseDamage.DamageMin ? weapon : baseDamage
+        const range = weapon.DamageMin >- baseDamage.DamageMin ? weapon : baseDamage
 
         return {
             Base: base,

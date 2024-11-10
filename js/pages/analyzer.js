@@ -525,8 +525,8 @@ Site.ready({ name: 'analyzer', requires: ['translations_monsters'] }, function (
                 const baseDamage = player.model.getBaseDamage(secondary);
 
                 if (json[0] < baseDamage.DamageMin) {
-                    json[0] = Math.max(baseDamage.DamageMin, json[0]);
-                    json[1] = Math.max(baseDamage.DamageMax, json[1]);
+                    json[0] = baseDamage.DamageMin;
+                    json[1] = baseDamage.DamageMax;
                 }
             }
 

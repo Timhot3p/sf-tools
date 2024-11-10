@@ -777,13 +777,15 @@ class SimulatorModel {
 
     // Get damage range
     getDamageRange (weapon, target, secondary = false) {
-        let dm = this.getDamageBase(weapon, target);
-        let bd = this.getBaseDamage(secondary);
+        let base = this.getDamageBase(weapon, target);
+        let baseDamage = this.getBaseDamage(secondary);
+
+        const range = weapon.DamageMin > baseDamage.DamageMin ? weapon : baseDamage
 
         return {
-            Base: dm,
-            Max: dm * Math.max(weapon.DamageMax, bd.DamageMax),
-            Min: dm * Math.max(weapon.DamageMin, bd.DamageMin)
+            Base: base,
+            Max: base * range.DamageMax,
+            Min: base * range.DamageMin
         };
     }
 

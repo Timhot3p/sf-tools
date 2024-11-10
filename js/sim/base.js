@@ -728,13 +728,13 @@ class SimulatorModel {
             const num = multiplier * (this.Player.Level - 9) * this.getWeaponMultiplier();
 
             return {
-                Min: Math.max(1, Math.ceil(num * 2 / 3)),
-                Max: Math.max(2, Math.round(num * 4 / 3))
+                DamageMin: Math.max(1, Math.ceil(num * 2 / 3)),
+                DamageMax: Math.max(2, Math.round(num * 4 / 3))
             };
         } else {
             return {
-                Min: 1,
-                Max: 2
+                DamageMin: 1,
+                DamageMax: 2
             }
         }
     }

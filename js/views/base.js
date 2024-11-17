@@ -486,13 +486,13 @@ class AnnouncementDialog extends Dialog {
         const $content = this.$parent.find('[data-op="content"]');
 
         // Find announcement that was not viewed before and can be viewed on this page
-        const { title, content, id } = ANNOUNCEMENTS.find((announcement) => !Site.options.announcements_viewed.includes(announcement.id) && (!announcement.for || announcement.for.some((page) => Site.is(page))))
+        const { title, content, id } = ANNOUNCEMENTS.find((announcement) => !announcement.disabled && !Site.options.announcements_viewed.includes(announcement.id) && (!announcement.for || announcement.for.some((page) => Site.is(page))))
 
         this.$parent.find('[data-op="accept"]').click(() => {
             Site.options.announcements_viewed = [...Site.options.announcements_viewed, id];
 
             // Show next possible announcement, or hide dialog
-            if (ANNOUNCEMENTS.some((announcement) => !Site.options.announcements_viewed.includes(announcement.id) && (!announcement.for || announcement.for.some((page) => Site.is(page))))) {
+            if (ANNOUNCEMENTS.some((announcement) => !announcement.disabled && !Site.options.announcements_viewed.includes(announcement.id) && (!announcement.for || announcement.for.some((page) => Site.is(page))))) {
                 this.replace(
                     [
                         AnnouncementDialog
@@ -867,7 +867,7 @@ window.addEventListener('DOMContentLoaded', async function () {
             Site.options.announcement_accepted = -1;
         }
 
-        if (ANNOUNCEMENTS.some((announcement) => !Site.options.announcements_viewed.includes(announcement.id) && (!announcement.for || announcement.for.some((page) => Site.is(page))))) {
+        if (ANNOUNCEMENTS.some((announcement) => !announcement.disabled && !Site.options.announcements_viewed.includes(announcement.id) && (!announcement.for || announcement.for.some((page) => Site.is(page))))) {
             Dialog.open(AnnouncementDialog);
         }
 

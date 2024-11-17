@@ -3,6 +3,7 @@ const ANNOUNCEMENTS = [
         id: '11-07-2024',
         for: ['hellevator', 'raids'],
         title: 'Hellevator & Raid Simulator',
+        disabled: true,
         content: `
             As you might quickly notice, Hellevator themes are no longer available for you to select in the simulator.<br>
             This is because of the constant need to keep them up to date for upcoming Hellevators which is quite inpractical or impossible (for Hellevator Raids).<br>
@@ -20,6 +21,7 @@ const ANNOUNCEMENTS = [
     {
         id: '09-07-2024',
         title: 'The age of Templates is over!',
+        disabled: true,
         content: `
             It took long enough but we are finally here, templates are no more.<br>
             Now welcome new scripts, which is just like templates, but much much better! Here are some of the benefits:<br><br>

@@ -1,5 +1,16 @@
 const ANNOUNCEMENTS = [
     {
+        id: '17-11-2024',
+        title: 'Hellevator Themes & Google situation',
+        content: `
+            <b>Hellevator Themes</b><br>
+            After going through all of your feedback I have decided to reintroduce Hellevator themes back. You will not be able to select which theme you want to simulate but it will now always use the latest available theme.<br><br>
+            <b>Google</b><br>
+            As you might have noticed, SF Tools pretty much disappeared from Google search. In the beginning of this month it suddenly got deindexed by Google and it refuses to let it go back. I hope that it will get resolved soon but until then it relies on you, to spread the word.<br><br>
+            And do not forget, if you want to support SF Tools then use the code <code class="text-orange" style="font-family: arial;">SFTOOLS</code> when buying mushrooms. 
+        `
+    },
+    {
         id: '11-07-2024',
         for: ['hellevator', 'raids'],
         title: 'Hellevator & Raid Simulator',

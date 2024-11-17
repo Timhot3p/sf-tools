@@ -5,7 +5,7 @@ if (typeof WorkerGlobalScope !== 'undefined' && self instanceof WorkerGlobalScop
     FLAGS.log(!!log);
 
     self.postMessage({
-      score: enemy.map((enemyVariant) => new HellevatorSimulator().simulate(player, enemyVariant, iterations)),
+      score: new HellevatorSimulator().simulate(player, enemy, iterations),
       logs: FIGHT_LOG.dump()
     });
 

@@ -127,17 +127,11 @@ Site.ready({ name: 'hellevator', type: 'simulator' }, function (urlParams) {
     // Display
     const $enemyList = $('#enemy-list');
     function renderEnemies (enemies, scores) {
-        for (const scoreSet of scores) {
-            scoreSet.avg = _sum(scoreSet) / scoreSet.length;
-            scoreSet.max = _fastMax(scoreSet)
-            scoreSet.min = _fastMin(scoreSet)
-        }
-
         let content = '';
 
         let firstPossibleLoss = enemies.length;
         for (let i = 0; i < enemies.length; i++) {
-            if ((scores[i]?.min || 0) != 1) {
+            if ((scores[i] || 0) != 1) {
                 firstPossibleLoss = i;
                 break;
             }
@@ -145,7 +139,7 @@ Site.ready({ name: 'hellevator', type: 'simulator' }, function (urlParams) {
 
         let lastPossibleWin = -1;
         for (let i = enemies.length - 1; i >= firstPossibleLoss; i--) {
-            if ((scores[i]?.max || 0) != 0) {
+            if ((scores[i] || 0) != 0) {
                 lastPossibleWin = i;
                 break;
             }
@@ -188,51 +182,19 @@ Site.ready({ name: 'hellevator', type: 'simulator' }, function (urlParams) {
                     continue;
                 }
 
-                const bestScore = scores[index].max
-                const averageScore = scores[index].avg
-                const worstScore = scores[index].min
+                const score = scores[index] || 0;
 
                 content += `
-                    <div class="row" data-has-popup>
+                    <div class="row !p-0">
                         <div class="two wide text-center column">${enemy.Floor}</div>
-                        <div class="three wide text-center column">${enemy.Level}</div>
-                        ${
-                            bestScore === 0 ? `
-                                <div class="eleven wide text-center column">
-                                    ${intl('pets.bulk.not_possible')}
-                                </div>
-                            ` : `
-                                <div class="four wide text-center column" style="color: ${worstScore === 0 ? 'orange' : worstScore === 1 ? 'lightgreen' : 'white'};">
-                                    ${(100 * worstScore).toFixed(2)}%
-                                </div>
-                                <div class="three wide text-center column" style="color: ${averageScore === 0 ? 'orange' : averageScore === 1 ? 'lightgreen' : 'white'};">
-                                    ${(100 * averageScore).toFixed(2)}%
-                                </div>
-                                <div class="four wide text-center column" style="color: ${bestScore === 0 ? 'orange' : bestScore === 1 ? 'lightgreen' : 'white'};">
-                                    ${(100 * bestScore).toFixed(2)}%
-                                </div>
-                            `
-                        }
-                    </div>
-                    <div class="ui inverted popup" style="border: 1px solid #0b0c0c; width: 250px;">
-                        <div class="text-center header" style="height: 3em;">${intl('hellevator.win.title')}</div>
-                        <div class="ui grid css-nomargin-grid">
-                            ${
-                                scores[index].map((score, scoreIndex) => `
-                                    <div class="row">
-                                        <div class="four wide text-center column">
-                                            <img class="ui medium centered image" style="width: 40px;" src="${_classImageUrl(1 + Math.trunc(scoreIndex / 3))}">
-                                        </div>
-                                        <div class="four wide text-center column">
-                                            <img class="ui medium centered image" style="width: 40px;" src="res/element${scoreIndex % 3}.webp">
-                                        </div>
-                                        <div class="eight wide text-center column items-center justify-content-center" style="display: flex;">
-                                            ${(100 * score).toFixed(2)}%
-                                        </div>
-                                    </div>
-                                `).join('')
-                            }
+                        <div class="three wide text-center column">
+                            <img class="ui medium centered image" style="width: 50px;" src="${_classImageUrl(enemy.Class)}">
                         </div>
+                        <div class="three wide text-center column">
+                            <img class="ui medium centered image" style="width: 50px;" src="res/element${enemy.Items.Wpn1.AttributeTypes[2] - 40}.webp">    
+                        </div>
+                        <div class="three wide text-center column">${enemy.Level}</div>
+                        <div class="five wide text-center column">${score === 0 ? intl('pets.bulk.not_possible') : `${(100 * score).toFixed(2)}%`}</div>
                     </div>
                 `
             }
@@ -249,10 +211,6 @@ Site.ready({ name: 'hellevator', type: 'simulator' }, function (urlParams) {
         }
 
         $enemyList.html(content);
-        $enemyList.find('[data-has-popup]').popup({
-            inline: true,
-            position: 'left center'
-        })
     }
 
     async function executeSimulation (instances, iterations, logCallback) {
@@ -282,16 +240,7 @@ Site.ready({ name: 'hellevator', type: 'simulator' }, function (urlParams) {
                     {
                         player,
                         iterations,
-                        enemy: MonsterGenerator.createVariantsOf(
-                            enemy,
-                            [WARRIOR, MAGE, SCOUT],
-                            [RUNE_FIRE_DAMAGE, RUNE_COLD_DAMAGE, RUNE_LIGHTNING_DAMAGE],
-                            {
-                                updateRuneResistance: true,
-                                updateDamage: false,
-                                updateHealth: false
-                            }
-                        ),
+                        enemy,
                         log: !!logCallback,
                         config: SimulatorUtils.config
                     }

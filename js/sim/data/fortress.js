@@ -102,7 +102,7 @@ const FortressUnits = new (class {
             Level: level,
             Class: klass,
             NoBaseDamage: true,
-            Armor: level * CONFIG.fromIndex(klass).MaximumDamageReduction,
+            Armor: level * CONFIG.fromID(klass).MaximumDamageReduction,
             BlockChance: isWall ? 0 : undefined,
             Potions: {
                 Life: 0

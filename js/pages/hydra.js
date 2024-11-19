@@ -95,7 +95,7 @@ Site.ready({ name: 'hydra', type: 'simulator' }, function () {
         return {
             Level: data.Level,
             Class: klass,
-            Armor: data.Level * CONFIG.fromIndex(klass).MaximumDamageReduction,
+            Armor: data.Level * CONFIG.fromID(klass).MaximumDamageReduction,
             Strength: {
                 Total: getAtttributeFromMS('Strength', klass, data)
             },

@@ -298,7 +298,7 @@ class AnalyzerAutofillDialog extends Dialog {
 
     #convert (dungeon, data) {
         return {
-            Armor: data.armor || ((dungeon.armor_multiplier || 1) * (data.level * CONFIG.fromIndex(data.class).MaximumDamageReduction)),
+            Armor: data.armor || ((dungeon.armor_multiplier || 1) * (data.level * CONFIG.fromID(data.class).MaximumDamageReduction)),
             Dungeons: { Group: 0 },
             Fortress: { Gladiator: data.gladiator || 0 },
             Runes: this.#getBossRunes(data.runes),

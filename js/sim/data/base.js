@@ -126,7 +126,7 @@ class MonsterGenerator {
       NoBaseDamage: true,
       Level: monsterLevel,
       Class: monsterClass,
-      Armor: armor === -1 ? monsterLevel * CONFIG.fromIndex(monsterClass).MaximumDamageReduction : armor,
+      Armor: armor === -1 ? monsterLevel * CONFIG.fromID(monsterClass).MaximumDamageReduction : armor,
       Health: health,
       Luck: { Total: luck },
       Constitution: { Total: con },
@@ -147,7 +147,7 @@ class MonsterGenerator {
     }
 
     for (let i = 0; i < 3; i++) {
-      const name = PlayerModel.ATTRIBUTE_ORDER_BY_ATTRIBUTE[CONFIG.fromIndex(monsterClass).Attribute][i];
+      const name = PlayerModel.ATTRIBUTE_ORDER_BY_ATTRIBUTE[CONFIG.fromID(monsterClass).Attribute][i];
 
       model[name] = {
         Total: i === 0 ? main : side
@@ -160,11 +160,11 @@ class MonsterGenerator {
   static createVariantsOf (monster, classList, runeList, flags = { updateRuneResistance: false, updateDamage: true, updateHealth: true }) {
     const variants = []
 
-    const oldDefinition = CONFIG.fromIndex(monster.Class);
+    const oldDefinition = CONFIG.fromID(monster.Class);
     const oldattributes = PlayerModel.ATTRIBUTE_ORDER_BY_ATTRIBUTE[oldDefinition.Attribute].map((kind) => _dig(monster, kind)).map((att) => ({ Total: att.Total }));
 
     for (let i = 0; i < classList.length; i++) {
-      const newDefinition = CONFIG.fromIndex(classList[i]);
+      const newDefinition = CONFIG.fromID(classList[i]);
 
       const classVariant = mergeDeep({}, monster)
 

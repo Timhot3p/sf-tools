@@ -64,7 +64,7 @@ class PlayerEditor extends EditorBase {
         this.callback = callback;
 
         this.fields['class'].initialize({
-            values: CONFIG.indexes().map((value) => ({
+            values: CONFIG.ids().map((value) => ({
                 image: _classImageUrl(value),
                 imageClass: '!-ml-3 !mr-2',
                 name: intl(`general.class${value}`),
@@ -855,7 +855,7 @@ Site.ready({ name: 'analyzer', requires: ['translations_monsters'] }, function (
 
     function injectComputedData (object) {
         if (object.Boss) {
-            const config = CONFIG.fromIndex(object.Class);
+            const config = CONFIG.fromID(object.Class);
 
             object.Armor = object.Level * config.MaximumDamageReduction;
         }

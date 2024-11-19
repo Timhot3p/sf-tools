@@ -853,7 +853,7 @@ class StatisticsIntegrationCheatsDialog extends Dialog {
                     name: intl('dungeons.cheats.keep_original'),
                     value: 0
                 },
-                ... CONFIG.indexes().map((e) => {
+                ... CONFIG.ids().map((e) => {
                     return {
                         name: `<img class="ui centered image !-ml-3 !mr-2" src="${_classImageUrl(e)}">${intl(`general.class${e}`)}`,
                         value: e
@@ -1016,8 +1016,8 @@ const StatisticsIntegration = new (class {
         }
 
         if (this.cheats.class) {
-            const oldDefinition = CONFIG.fromIndex(player.Class);
-            const newDefinition = CONFIG.fromIndex(this.cheats.class);
+            const oldDefinition = CONFIG.fromID(player.Class);
+            const newDefinition = CONFIG.fromID(this.cheats.class);
 
             const swapAttributes = function (obj) {
                 const oldattributes = PlayerModel.ATTRIBUTE_ORDER_BY_ATTRIBUTE[oldDefinition.Attribute].map((kind) => _dig(obj, kind)).map((att) => ({ Base: att.Base, Total: att.Total }));

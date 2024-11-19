@@ -170,6 +170,8 @@ const CONFIG = Object.defineProperties(
             CritEnchantmentBonus: 0.05
         },
         Warrior: {
+            ID: WARRIOR,
+
             Attribute: 'Strength',
 
             HealthMultiplier: 5,
@@ -186,6 +188,8 @@ const CONFIG = Object.defineProperties(
             UseBlockChance: true
         },
         Mage: {
+            ID: MAGE,
+
             Attribute: 'Intelligence',
 
             HealthMultiplier: 2,
@@ -204,6 +208,8 @@ const CONFIG = Object.defineProperties(
             SkipVariant: DEFENSE_TYPE_NONE
         },
         Scout: {
+            ID: SCOUT,
+
             Attribute: 'Dexterity',
 
             HealthMultiplier: 4,
@@ -218,6 +224,8 @@ const CONFIG = Object.defineProperties(
             SkipVariant: DEFENSE_TYPE_EVADE
         },
         Assassin: {
+            ID: ASSASSIN,
+
             Attribute: 'Dexterity',
 
             HealthMultiplier: 4,
@@ -232,6 +240,8 @@ const CONFIG = Object.defineProperties(
             SkipVariant: DEFENSE_TYPE_EVADE
         },
         Battlemage: {
+            ID: BATTLEMAGE,
+
             Attribute: 'Strength',
 
             HealthMultiplier: 5,
@@ -246,6 +256,8 @@ const CONFIG = Object.defineProperties(
             SkipVariant: DEFENSE_TYPE_NONE
         },
         Berserker: {
+            ID: BERSERKER,
+
             Attribute: 'Strength',
 
             HealthMultiplier: 4,
@@ -260,6 +272,8 @@ const CONFIG = Object.defineProperties(
             SkipVariant: DEFENSE_TYPE_NONE
         },
         DemonHunter: {
+            ID: DEMONHUNTER,
+
             Attribute: 'Dexterity',
 
             HealthMultiplier: 4,
@@ -284,6 +298,8 @@ const CONFIG = Object.defineProperties(
             ReviveMax: 999
         },
         Druid: {
+            ID: DRUID,
+
             Attribute: 'Intelligence',
 
             HealthMultiplier: 5,
@@ -314,6 +330,8 @@ const CONFIG = Object.defineProperties(
             }
         },
         Bard: {
+            ID: BARD,
+
             Attribute: 'Intelligence',
 
             HealthMultiplier: 2,
@@ -333,6 +351,8 @@ const CONFIG = Object.defineProperties(
             EffectValues: [ 0.2, 0.4, 0.6 ]
         },
         Necromancer: {
+            ID: NECROMANCER,
+
             Attribute: 'Intelligence',
 
             HealthMultiplier: 4,
@@ -382,6 +402,9 @@ const CONFIG = Object.defineProperties(
             ]
         },
         Paladin: {
+            ID: PALADIN,
+            Disabled: true,
+
             Attribute: 'Strength',
 
             HealthMultiplier: 6,
@@ -448,19 +471,19 @@ const CONFIG = Object.defineProperties(
                 }
             }
         },
-        fromIndex: {
+        fromID: {
             value: function (index) {
                 return Object.values(this)[index];
             }
         },
-        indexes: {
+        ids: {
             value: function () {
-                return Array.from({ length: Object.keys(this).length - 1 }, (_, i) => i + 1);
+                return this.classes().map((klass) => klass.ID)
             }
         },
         classes: {
             value: function () {
-                return Object.values(this).slice(1);
+                return Object.values(this).filter((klassLike) => 'ID' in klassLike && !klassLike.Disabled);
             }
         }
     }

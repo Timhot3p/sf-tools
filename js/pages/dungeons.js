@@ -138,7 +138,7 @@ Site.ready({ name: 'dungeons', type: 'simulator', requires: ['translations_monst
 
     function getMirrorPlayerData (data, dungeon) {
         const player = _clone(players[0]);
-        const config = CONFIG.fromIndex(player.Class);
+        const config = CONFIG.fromID(player.Class);
 
         if (dungeon.shadow) {
             player.Constitution.Total = 4 * player.Constitution.Total;
@@ -164,7 +164,7 @@ Site.ready({ name: 'dungeons', type: 'simulator', requires: ['translations_monst
         }
 
         return {
-            Armor: data.armor || ((dungeon.armor_multiplier || 1) * (data.level * CONFIG.fromIndex(data.class).MaximumDamageReduction)),
+            Armor: data.armor || ((dungeon.armor_multiplier || 1) * (data.level * CONFIG.fromID(data.class).MaximumDamageReduction)),
             Class: data.class,
             Name: data.name,
             Level: data.level,
@@ -809,7 +809,7 @@ Site.ready({ name: 'dungeons', type: 'simulator', requires: ['translations_monst
     function convertBossToSimulatorFormat (rawData, rawDungeon) {
         const data = getBossData(rawData, rawDungeon);
 
-        const definition = CONFIG.fromIndex(data.Class);
+        const definition = CONFIG.fromID(data.Class);
 
         const level = data.Level;
         const health = data.Health;

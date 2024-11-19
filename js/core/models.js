@@ -1684,7 +1684,7 @@ class PlayerModel {
     getHealth () {
         if (typeof this.Config === 'undefined') {
             // Ensure config exists, needed due to simulators
-            this.Config = CONFIG.fromIndex(this.Class);
+            this.Config = CONFIG.fromID(this.Class);
         }
 
         let ma = this.Config.HealthMultiplier;
@@ -1816,7 +1816,7 @@ class PlayerModel {
     }
 
     evaluateCommon () {
-        this.Config = CONFIG.fromIndex(this.Class);
+        this.Config = CONFIG.fromID(this.Class);
         this.ItemsArray = Object.values(this.Items);
 
         this.Primary = this.getPrimaryAttribute();
@@ -2256,7 +2256,7 @@ class CompanionModel extends PlayerModel {
     }
 
     evaluateCommon(player) {
-        this.Config = CONFIG.fromIndex(this.Class);
+        this.Config = CONFIG.fromID(this.Class);
         this.ItemsArray = Object.values(this.Items);
 
         this.Primary = this.getPrimaryAttribute();
@@ -2405,7 +2405,7 @@ class CompanionModel extends PlayerModel {
 
 class ModelUtils {
     static estimatePower (model) {
-        const config = CONFIG.fromIndex(model.Class);
+        const config = CONFIG.fromID(model.Class);
         const base = model[config.Attribute].Total * model.Constitution.Total * model.Level / config.WeaponMultiplier;
 
         if (model.Class === ASSASSIN) {

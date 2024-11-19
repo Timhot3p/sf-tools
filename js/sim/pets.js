@@ -218,7 +218,7 @@ class PetModel {
         const main = Math.trunc(PET_FACTOR_MAP[pet] * multiplier);
         const luck =  Math.trunc(PET_FACTOR_MAP_LUCK[pet] * multiplier);
 
-        const config = CONFIG.fromIndex(klass);
+        const config = CONFIG.fromID(klass);
         const damage = Math.trunc((level + 1) * config.WeaponMultiplier);
 
         const getAttribute = (type) => {

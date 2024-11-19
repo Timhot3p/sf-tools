@@ -377,7 +377,7 @@ class Editor extends EditorBase {
 
     _bind () {
         this.fields['class'].initialize({
-            values: CONFIG.indexes().map((value) => ({
+            values: CONFIG.ids().map((value) => ({
                 image: _classImageUrl(value),
                 imageClass: '!-ml-3 !mr-2',
                 name: intl(`general.class${value}`),
@@ -551,7 +551,7 @@ class Editor extends EditorBase {
                     type: 'header',
                     class: 'header text-center'
                 },
-                ...CONFIG.indexes().map((value) => ({
+                ...CONFIG.ids().map((value) => ({
                     image: _classImageUrl(value),
                     imageClass: '!-ml-3 !mr-2',
                     name: intl(`general.class${value}`),
@@ -572,8 +572,8 @@ class Editor extends EditorBase {
         const oldClass = this.fields['class'].get();
 
         if (this.valid() && oldClass != newClass) {
-            const oldDefinition = CONFIG.fromIndex(oldClass);
-            const newDefinition = CONFIG.fromIndex(newClass);
+            const oldDefinition = CONFIG.fromID(oldClass);
+            const newDefinition = CONFIG.fromID(newClass);
 
             const swapAttributes = function (obj) {
                 const oldattributes = PlayerModel.ATTRIBUTE_ORDER_BY_ATTRIBUTE[oldDefinition.Attribute].map((kind) => _dig(obj, kind)).map((att) => ({ Base: att.Base, Total: att.Total }));

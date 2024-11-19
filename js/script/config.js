@@ -759,7 +759,7 @@ DEFAULT_EXPRESSION_CONFIG.register(
 
 DEFAULT_EXPRESSION_CONFIG.register(
   'enumeration', 'array', 'Classes',
-  function () { return _arrayFromIndexes(CONFIG.indexes(), (i) => intl(`general.class${i}`), ['']) },
+  function () { return _arrayFromIndexes(CONFIG.ids(), (i) => intl(`general.class${i}`), ['']) },
   { isComputed: true }
 )
 

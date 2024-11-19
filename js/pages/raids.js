@@ -359,7 +359,7 @@ Site.ready({ name: 'raids', type: 'simulator', requires: ['translations_monsters
             const data = raidData.floors[i + 1]
 
             return {
-                Armor: data.level * CONFIG.fromIndex(data.class).MaximumDamageReduction,
+                Armor: data.level * CONFIG.fromID(data.class).MaximumDamageReduction,
                 Class: data.class,
                 Name: `Monster ${i + 1}`,
                 Level: data.level,

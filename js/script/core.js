@@ -3459,7 +3459,7 @@ class Script {
         this.listClasses = tableArray.reduce((c, { current }) => {
             c[current.Class]++;
             return c;
-        }, _arrayToDefaultHash(CONFIG.indexes(), 0));
+        }, _arrayToDefaultHash(CONFIG.ids(), 0));
 
         // Purify array
         tableArray = [].concat(tableArray);
@@ -3528,7 +3528,7 @@ class Script {
         this.listClasses = tableArray.reduce((c, { current }) => {
             c[current.Class]++;
             return c;
-        }, _arrayToDefaultHash(CONFIG.indexes(), 0));
+        }, _arrayToDefaultHash(CONFIG.ids(), 0));
 
         this.listJoined = tableArray.joined;
         this.listKicked = tableArray.kicked;

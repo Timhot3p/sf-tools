@@ -392,13 +392,13 @@ const SimulatorUtils = class {
                             SimulatorCustomPresetDialog
                         ).then(([value, player]) => {
                             if (value) {
-                                method(CONFIG.indexes().map((index) => this.#generatePlayerFromSample(player, index)));
+                                method(CONFIG.ids().map((index) => this.#generatePlayerFromSample(player, index)));
                             }
                         })
                     } else {
                         const { data, suffix } = presets[parseInt(value)];
     
-                        method(CONFIG.indexes().map((index) => this.#generatePlayerFromSample(data, index, suffix)));
+                        method(CONFIG.ids().map((index) => this.#generatePlayerFromSample(data, index, suffix)));
                     }
                 });
 
@@ -408,8 +408,8 @@ const SimulatorUtils = class {
     }
 
     static #generatePlayerFromSample (sample, newClass, suffix) {
-        const oldDefinition = CONFIG.fromIndex(WARRIOR);
-        const newDefinition = CONFIG.fromIndex(newClass);
+        const oldDefinition = CONFIG.fromID(WARRIOR);
+        const newDefinition = CONFIG.fromID(newClass);
 
         const swapAttributes = function (obj) {
             const oldattributes = PlayerModel.ATTRIBUTE_ORDER_BY_ATTRIBUTE[oldDefinition.Attribute].map((kind) => _dig(obj, kind)).map((att) => ({ Base: att.Base, Total: att.Total }));

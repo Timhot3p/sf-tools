@@ -403,7 +403,6 @@ const CONFIG = Object.defineProperties(
         },
         Paladin: {
             ID: PALADIN,
-            Disabled: true,
 
             Attribute: 'Strength',
 

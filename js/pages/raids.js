@@ -365,6 +365,7 @@ Site.ready({ name: 'raids', type: 'simulator', requires: ['translations_monsters
                 Level: data.level,
                 Health: data.health,
                 NoBaseDamage: true,
+                NoGladiator: true,
                 BlockChance: typeof data.block !== 'undefined' ? data.block : undefined,
                 Identifier: 999,
                 Strength: { Total: data.str },

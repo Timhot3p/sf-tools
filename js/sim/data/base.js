@@ -124,6 +124,7 @@ class MonsterGenerator {
 
     const model = {
       NoBaseDamage: true,
+      NoGladiator: true,
       Level: monsterLevel,
       Class: monsterClass,
       Armor: armor === -1 ? monsterLevel * CONFIG.fromID(monsterClass).MaximumDamageReduction : armor,

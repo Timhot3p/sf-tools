@@ -4201,6 +4201,15 @@ TABLE_EXPRESSION_CONFIG.register(
 )
 
 TABLE_EXPRESSION_CONFIG.register(
+  'header', 'private', 'Sandstorm',
+  {
+    expr: p => p.Dungeons ? Math.max(0, p.Dungeons.Sandstorm) : undefined,
+    statistics: false,
+    width: 120
+  }
+)
+
+TABLE_EXPRESSION_CONFIG.register(
   'header', 'private', 'Twister',
   {
     expr: p => p.Dungeons ? Math.max(0, p.Dungeons.Twister) : undefined,

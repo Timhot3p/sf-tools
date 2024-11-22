@@ -386,7 +386,7 @@ Site.ready({ name: 'dungeons', type: 'simulator', requires: ['translations_monst
     }
 
     function getSpecialDungeonEnemyAt (dungeon, enemyIndex, soft = false) {
-        if (enemyIndex < 0) {
+        if (enemyIndex < 0 || !DUNGEON_DATA[dungeon]) {
             return null;
         } else {
             let floors = DUNGEON_DATA[dungeon].floors;
@@ -424,6 +424,7 @@ Site.ready({ name: 'dungeons', type: 'simulator', requires: ['translations_monst
             let tower = player.Dungeons.Tower;
             let youtube = player.Dungeons.Youtube;
             let twister = player.Dungeons.Twister + 1;
+            let sandstorm = player.Dungeons.Sandstorm;
 
             availableBosses = [
                 ... normalDungeons.map((dungeon, index) => getDungeonEnemyAt(DUNGEON_ARR_TO_DID[index], false, dungeon)),
@@ -431,6 +432,7 @@ Site.ready({ name: 'dungeons', type: 'simulator', requires: ['translations_monst
                 getSpecialDungeonEnemyAt(203, twister, true),
                 ... shadowDungeons.map((dungeon, index) => getDungeonEnemyAt(DUNGEON_ARR_TO_DID[index], true, dungeon)),
                 getSpecialDungeonEnemyAt(202, youtube),
+                getSpecialDungeonEnemyAt(204, sandstorm),
             ].filter(boss => boss);
 
             if (availableBosses.length) {

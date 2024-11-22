@@ -709,7 +709,7 @@ const DUNGEON_DATA = {
             '47': { pos: 47, id: 518, class: 1, level: 666, str: 508800, dex: 254400, int: 254400, con: 254400, lck: 643800, health: 2147073000, min: 2333, max: 2435, runes: { type: 40, res: [25, 0, 0], damage: 25 }, armor: 33300 },
             '48': { pos: 48, id: 519, class: 2, level: 667, str: 255300, dex: 255300, int: 510600, con: 510600, lck: 645600, health: 862521600, min: 4744, max: 4862, runes: { type: 41, res: [0, 25, 0], damage: 25 }, armor: 6670 },
             '49': { pos: 49, id: 526, class: 3, level: 668, str: 256200, dex: 512400, int: 256200, con: 256200, lck: 647400, health: 1732442400, min: 2352, max: 2449, runes: { type: 42, res: [0, 0, 25], damage: 25 }, armor: 16700 },
-            '50': { pos: 50, id: 528, class: 1, level: 669, str: 514200, dex: 257100, int: 257100, con: 257100, lck: 649200, health: 2174820000, min: 2352, max: 2456, runes: { type: 41, res: [0, 25, 0], damage: 25 }, armor: 33450 },
+            '50': { pos: 50, id: 528, class: 1, level: 669, str: 514200, dex: 257100, int: 257100, con: 257100, lck: 649200, health: 2174820000, min: 2352, max: 2456, runes: { type: 40, res: [25, 0, 0], damage: 25 }, armor: 33450 },
             '51': { pos: 51, id: 501, class: 3, level: 650, str: 240000, dex: 480000, int: 240000, con: 240000, lck: 615000, health: 1601460000, min: 2232, max: 2335, runes: { type: 42, res: [0, 0, 25], damage: 25 }, armor: 16250 },
             '52': { pos: 52, id: 507, class: 1, level: 651, str: 481800, dex: 240900, int: 240900, con: 240900, lck: 616800, health: 2010768000, min: 2237, max: 2339, runes: { type: 40, res: [25, 0, 0], damage: 25 }, armor: 32550 },
             '53': { pos: 53, id: 508, class: 2, level: 652, str: 241800, dex: 241800, int: 483600, con: 483600, lck: 618600, health: 807891600, min: 4499, max: 4678, runes: { type: 41, res: [0, 25, 0], damage: 25 }, armor: 6520 },
@@ -759,7 +759,9 @@ const DUNGEON_DATA = {
             '97': { pos: 97, id: 518, class: 1, level: 816, str: 0, dex: 0, int: 0, con: 0, lck: 0, health: 0, min: 0, max: 5, runes: { type: 40, res: [25, 0, 0], damage: 25 }, armor: 0 },
             '98': { pos: 98, id: 519, class: 2, level: 817, str: 0, dex: 0, int: 0, con: 0, lck: 0, health: 0, min: 0, max: 6, runes: { type: 41, res: [0, 25, 0], damage: 25 }, armor: 0 },
             '99': { pos: 99, id: 526, class: 3, level: 818, str: 0, dex: 0, int: 0, con: 0, lck: 0, health: 0, min: 0, max: 7, runes: { type: 42, res: [0, 0, 25], damage: 25 }, armor: 0 },
-            '100': { pos: 100, id: 528, class: 1, level: 819, str: 0, dex: 0, int: 0, con: 0, lck: 0, health: 0, min: 0, max: 8, armor: 0 },
+            '100': { pos: 100, id: 528, class: 1, level: 819, str: 0, dex: 0, int: 0, con: 0, lck: 0, health: 0, min: 0, max: 8, runes: { type: 40, res: [25, 0, 0], damage: 25 }, armor: 0 },
+
+
 
         }
     },

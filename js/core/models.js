@@ -706,7 +706,8 @@ class DungeonHelper {
             Tower: open,
             Twister: open,
             Raid: locked,
-            Youtube: locked
+            Youtube: locked,
+            Sandstorm: locked
         }
     }
 
@@ -728,6 +729,7 @@ class DungeonHelper {
             dungeons.Twister = shadow[14];
             dungeons.Player = normal[17];
             dungeons.Youtube = shadow[17];
+            dungeons.Sandstorm = normal[31];
         } else {
             // Convert old dungeon data to new format
             for (const dungeonIndex of DungeonHelper.LEGACY_TO_INTERNAL_MAPPING) {

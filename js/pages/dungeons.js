@@ -17,10 +17,6 @@ Site.ready({ name: 'dungeons', type: 'simulator', requires: ['translations_monst
     for (let dungeon of Object.values(DUNGEON_DATA)) {
         dungeon.name = intl(`dungeon_enemies.${dungeon.intl}.name`);
 
-        if(dungeon.intl == 204) {
-            dungeon.name = "Sandstorm";
-        }
-
         for (let enemy of Object.values(dungeon.floors)) {
             enemy.name = Localization.hasTranslation(`monsters.${enemy.id}`) ? intl(`monsters.${enemy.id}`) : intl(`dungeon_enemies.${dungeon.intl}.${enemy.pos}`);
         }

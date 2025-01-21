@@ -1660,8 +1660,7 @@ const DUNGEON_DATA = {
             '998': { pos: 998, id: 519, class: 3, level: 832, str: 648000, dex: 1312000, int: 648000, con: 2385900, lck: 124000, health: 7949818800, min: 13700, max: 14013, runes: { type: 41, res: [25, 0, 0], damage: 25 },armor: 78840 },
             '999': { pos: 999, id: 526, class: 2, level: 832, str: 648000, dex: 648000, int: 1312000, con: 2385900, lck: 124000, health: 3974909400, min: 24660, max: 25223, runes: { type: 42, res: [0, 0, 25], damage: 25 },armor: 78840 },
             '1000': { pos: 1000, id: 528, class: 1, level: 833, str: 1315500, dex: 649500, int: 649500, con: 2390850, lck: 124250, health: 9969844500, min: 10990, max: 11240, runes: { type: 40, res: [0, 25, 0], damage: 25 },armor: 78960 },
-
-  }
+        }
     },
     '101': {
         id: 101,

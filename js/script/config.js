@@ -1453,7 +1453,7 @@ TABLE_EXPRESSION_CONFIG.register(
 TABLE_EXPRESSION_CONFIG.register(
   'header', 'public', 'Server',
   {
-    expr: p => SERVERS[p.ServerId]
+    expr: p => Playa.getServerUrlById(p.ServerId)
   }
 )
 
@@ -3576,7 +3576,8 @@ TABLE_EXPRESSION_CONFIG.register(
   'header', 'public', 'Power',
   {
     expr: p => ModelUtils.estimatePower(p),
-    format: (p, x) => x.toExponential(3)
+    format: (p, x) => x.toExponential(3),
+    differenceFormat: true
   }
 )
 
